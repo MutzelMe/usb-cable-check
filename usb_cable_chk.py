@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# usb_cable_chk.py
+# usb_cable_chk.py - PERFECT TABLE ALIGNMENT v7.5
 # USB-A↔C Cable Certification Tester
 
 import subprocess
@@ -142,12 +142,56 @@ class USBCableTester:
         self.log(f"MTP device: mtp://{device_path}", "PASS")
         return device_path
 
+    def _mtp_path_exists(self, path: str) -> bool:
+        """Test if MTP path exists and is accessible."""
+        result = self.run_cmd(f"gio list '{path}' 2>/dev/null", timeout=5)
+        return result.returncode == 0 and result.stdout.strip()
+
+    def _find_mtp_storage_path(self, device_name: str) -> str:
+        """Dynamically find the MTP storage path (works universally)"""
+        # Test common DCIM paths first (fastest method)
+        test_paths = [
+            "DCIM",
+            "Internal%20storage/DCIM",
+            "Phone/DCIM",
+            "emulated/0/DCIM",
+            "storage/emulated/0/DCIM",
+            "Internal%20shared%20storage/DCIM",
+            "Interner%20gemeinsamer%20Speicher/DCIM"
+        ]
+
+        for path in test_paths:
+            test_path = f"mtp://{device_name}/{path}"
+            if self._mtp_path_exists(test_path):
+                self.log(f"Found storage: {path.split('/')[0]}", "INFO")
+                return path.split('/')[0].replace(" ", "%20")
+
+        # If no common path works, scan MTP root
+        result = self.run_cmd(f"gio list mtp://{device_name}/", timeout=5)
+        if result.returncode != 0:
+            return "Interner%20gemeinsamer%20Speicher"  # Final fallback
+
+        # Look for storage indicators in any language
+        storage_indicators = [
+            'dcim', 'camera', 'internal', 'phone', 'main',
+            'storage', 'speicher', 'stockage', 'emulated', 'sdcard'
+        ]
+
+        for line in result.stdout.splitlines():
+            line = line.strip().lower()
+            if line and any(indicator in line for indicator in storage_indicators):
+                return line.replace(" ", "%20")
+
+        # Absolute fallback
+        return "Interner%20gemeinsamer%20Speicher"
+
     def transfer_speed_test(self, device_name: str) -> Dict:
         # Test USB transfer speed
         self.log("Transfer speed test...", "INFO")
-        root_folder = "Interner%20gemeinsamer%20Speicher"
+        # NEUE ZEILE:
+        root_folder = self._find_mtp_storage_path(device_name)
         test_folder = "DCIM"
-        full_path = f"mtp://{device_name}/{root_folder}/{test_folder}"
+        full_path = f"mtp://{device_name}/{root_folder}/{test_folder}" if root_folder else f"mtp://{device_name}/{test_folder}"
         success, speeds = 0, []
 
         for i in range(self.TEST_CYCLES):
