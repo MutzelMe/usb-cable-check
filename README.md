@@ -32,7 +32,7 @@ Test and certify your USB-A to USB-C cables for speed, stability, and quality.
 3. Run the script:
    ```bash
    chmod +x usb_cable_chk.py
-   ./usb_cable_chk.py
+   python3 ./usb_cable_chk.py
    ```
 4. Follow the on-screen instructions.
 
