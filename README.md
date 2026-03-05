@@ -50,11 +50,11 @@ Test and certify your USB-A to USB-C cables for speed, stability, and quality.
 ```
 🏆 USB-A ↔  C CERTIFICATION TEST
 ┌──────────────────────┬──────────────────────┬──────────────┐
-│ PARAMETER           │ RESULT               │ STATUS       │
+│ PARAMETER            │ RESULT               │ STATUS       │
 ├──────────────────────┼──────────────────────┼──────────────┤
-│ USB Version          │ USB 3.2 Gen 2        │ ⭐⭐ (2/3)    │
-│ Power Delivery       │ 900mA                │ ⭐⭐ (2/3)    │
-│ Data Speed           │ 350Mbps (5/5)        │ ⭐⭐⭐ (3/3)  │
+│ USB Version          │ USB 3.2 Gen 2        │ ⭐⭐ (2/3)   │
+│ Power Delivery       │ 900mA                │ ⭐⭐ (2/3)   │
+│ Data Speed           │ 350Mbps (5/5)        │ ⭐⭐⭐ (3/3) │
 │ Stability            │ 0 Errors             │ ✅           │
 │ Data Pins (D+/D-)    │ OK                   │ ✅           │
 │ Cable Quality        │ 2 Configs            │ ✅           │
