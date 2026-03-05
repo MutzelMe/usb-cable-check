@@ -22,6 +22,7 @@ Test and certify your USB-A to USB-C cables for speed, stability, and quality.
 - Linux (uses `lsusb`, `dmesg`, `gio`)
 - Python 3.5+
 - Optional: `colorama` for colored output (`pip install colorama`)
+- Android Mobile
 
 ---
 
@@ -71,3 +72,4 @@ Test and certify your USB-A to USB-C cables for speed, stability, and quality.
 - MTP Mode Required: Android device must be in File Transfer (MTP) mode.
 - Root Not Required: Runs with standard user permissions.
 - Tested on Ubuntu/Debian: May require adjustments for other distros.
+- Keep in mind that the results may be limited by other options like: your USB Port, your connected Phone, ...
